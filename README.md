@@ -66,6 +66,40 @@ To access the web interface, enter your **Ngrok Auth Token** in the 3rd cell by 
 This project is licensed under the **MIT License**.
 
 ---
+## ⚡ FastAPI Inference Service
+
+The project has been converted into a production-ready FastAPI inference service located in the [app/](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app) directory.
+
+### Project Structure
+*   **[app/config.py](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app/config.py):** Portable path resolutions using `pathlib`.
+*   **[app/schemas.py](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app/schemas.py):** Pydantic request (`PredictRequest`) and response (`PredictResponse`) schemas.
+*   **[app/train.py](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app/train.py):** Reusable module containing the notebook's exact BERT training pipeline.
+*   **[app/preprocessing.py](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app/preprocessing.py):** Data extraction (Google Play Store scraping) and canonical permission normalization.
+*   **[app/inference.py](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app/inference.py):** Tokenizer/Model loader and binary prediction pipeline. If model weights (`my_model_bce`) are missing at startup, it automatically triggers the training module to build the model first.
+*   **[app/utils.py](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app/utils.py):** Reproducibility and logging utility functions.
+*   **[app/main.py](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app/main.py):** FastAPI application with lifecycle lifespan setup and `/predict` endpoint.
+
+### 🏃 Running Locally
+1. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+2. Start the server:
+   ```bash
+   python -m uvicorn app.main:app --port 8000
+   ```
+3. Perform a test prediction:
+   ```powershell
+   # PowerShell
+   Invoke-RestMethod -Uri "http://127.0.0.1:8000/predict" -Method Post -ContentType "application/json" -Body '{"permission": "Location", "category": "Social Media"}'
+   ```
+
+### ☁️ Deploying to Render
+Since model files are ignored by git, they must be generated during deployment. To avoid startup timeouts on Render, train the model during the build stage.
+
+*   **Service Type:** Web Service
+*   **Build Command:** `pip install -r requirements.txt && python -m app.train`
+*   **Start Command:** `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+
+---
 ⭐ *If you found this project useful, consider giving it a star!*
-
-
