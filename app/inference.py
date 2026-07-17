@@ -49,11 +49,19 @@ def predict_single(permission: str, category: str, data_safety_info: str = "", t
         return_token_type_ids=True
     ).to(device)
 
+    logger.info(f"Using model from path: {MODEL_DIR}")
+    logger.info(f"Final constructed input text: '{text}'")
+    logger.info(f"Tokenized input keys: {list(inputs.keys())}")
+    logger.info(f"Tokenized input_ids shape: {inputs['input_ids'].shape}")
+
     with torch.no_grad():
         logits = model(**inputs).logits.view(-1)
         logit = logits.cpu().item()
         prob = float(torch.sigmoid(torch.tensor(logit)).item())
         
+        logger.info(f"Raw logits: {logit}")
+        logger.info(f"Sigmoid probability of Justified (Class 1): {prob}")
+
         # Determine predicted class based on threshold
         risk_class = 1 if prob >= threshold else 0
         confidence = prob if risk_class == 1 else 1.0 - prob

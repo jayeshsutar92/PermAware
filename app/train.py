@@ -147,7 +147,7 @@ def run_training():
     logger.info("Setting up trainer...")
     training_args = TrainingArguments(
         output_dir=str(BASE_DIR / "results"),
-        num_train_epochs=1,
+        num_train_epochs=6,
         per_device_train_batch_size=16,
         per_device_eval_batch_size=32,
         eval_strategy="epoch",
