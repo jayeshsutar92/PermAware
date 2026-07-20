@@ -66,20 +66,23 @@ To access the web interface, enter your **Ngrok Auth Token** in the 3rd cell by 
 This project is licensed under the **MIT License**.
 
 ---
-## ⚡ FastAPI Inference Service
+## ⚡ FastAPI Inference & Web Service
 
-The project has been converted into a production-ready FastAPI inference service located in the [app/](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app) directory.
+The project includes a production-ready FastAPI service that features both a REST API and a server-rendered Web UI (using Jinja2 templates and vanilla CSS/JS) located in the [app/](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app) directory.
 
 ### Project Structure
 *   **[app/config.py](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app/config.py):** Portable path resolutions using `pathlib`.
 *   **[app/schemas.py](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app/schemas.py):** Pydantic request (`PredictRequest`) and response (`PredictResponse`) schemas.
 *   **[app/train.py](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app/train.py):** Reusable module containing the notebook's exact BERT training pipeline.
 *   **[app/preprocessing.py](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app/preprocessing.py):** Data extraction (Google Play Store scraping) and canonical permission normalization.
-*   **[app/inference.py](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app/inference.py):** Tokenizer/Model loader and binary prediction pipeline. If model weights (`my_model_bce`) are missing at startup, it automatically triggers the training module to build the model first.
+*   **[app/inference.py](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app/inference.py):** Tokenizer/Model loader and prediction pipeline with detailed logging. If model weights (`my_model_bce`) are missing at startup, it automatically triggers the training module first.
 *   **[app/utils.py](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app/utils.py):** Reproducibility and logging utility functions.
-*   **[app/main.py](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app/main.py):** FastAPI application with lifecycle lifespan setup and `/predict` endpoint.
+*   **[app/main.py](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app/main.py):** FastAPI application with lifecycle lifespan setup, REST API endpoints (`/predict`), and web routes (`/` and `/analyze`).
+*   **[app/templates/](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app/templates/):** HTML templates for the frontend.
+*   **[app/static/](file:///d:/Personal%20Project/Major%20proj%20zip/Major%20proj%20zip/app/static/):** CSS/JS files for the client-side UI.
 
 ### 🏃 Running Locally
+
 1. Install dependencies:
    ```bash
    pip install -r requirements.txt
@@ -88,11 +91,18 @@ The project has been converted into a production-ready FastAPI inference service
    ```bash
    python -m uvicorn app.main:app --port 8000
    ```
-3. Perform a test prediction:
+3. Access the web interface:
+   Open your browser and navigate to **[http://127.0.0.1:8000/](http://127.0.0.1:8000/)** to use the interactive Web UI.
+   * **Auto-Scrape Mode:** Scrape permissions and data safety from any Google Play Store app (e.g. `com.whatsapp`) and run BERT classification.
+   * **Manual Input Mode:** Provide custom permission strings and categories for evaluation.
+
+4. Perform an API prediction request:
    ```powershell
    # PowerShell
    Invoke-RestMethod -Uri "http://127.0.0.1:8000/predict" -Method Post -ContentType "application/json" -Body '{"permission": "Location", "category": "Social Media"}'
    ```
+5. API Docs:
+   Access Swagger UI at **[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)**.
 
 ### ☁️ Deploying to Render
 Since model files are ignored by git, they must be generated during deployment. To avoid startup timeouts on Render, train the model during the build stage.
