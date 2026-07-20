@@ -1,0 +1,14 @@
+fastapi
+aiofiles
+uvicorn[standard]
+pydantic
+accelerate
+datasets
+beautifulsoup4==4.13.5
+numpy==2.0.2
+pandas==2.2.2
+pyngrok==8.0.0
+scikit-learn==1.6.1
+streamlit==1.56.0
+torch==2.10.0
+transformers==5.0.0

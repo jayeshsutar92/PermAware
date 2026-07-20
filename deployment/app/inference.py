@@ -16,11 +16,9 @@ def load_model():
     device = "cuda" if torch.cuda.is_available() else "cpu"
     logger.info(f"Target inference device: {device}")
 
-    # Check if model files exist; if not, run the training pipeline
+    # Ensure model files exist in production
     if not (MODEL_DIR / "config.json").exists() or not (MODEL_DIR / "model.safetensors").exists():
-        logger.warning(f"Model files not found at {MODEL_DIR}. Running training workflow first...")
-        from app.train import run_training
-        run_training()
+        raise FileNotFoundError(f"Model files config.json or model.safetensors not found at expected path: {MODEL_DIR}")
 
     logger.info(f"Loading tokenizer from {MODEL_DIR}")
     tokenizer = AutoTokenizer.from_pretrained(str(MODEL_DIR), use_fast=True)

@@ -79,7 +79,7 @@ def run_training():
             batch["input_text"],
             padding="max_length",
             truncation=True,
-            max_length=128
+            max_length=64
         )
 
     logger.info("Tokenizing datasets...")
@@ -153,16 +153,16 @@ def run_training():
     logger.info("Setting up trainer...")
     training_args = TrainingArguments(
         output_dir=str(BASE_DIR / "results"),
-        num_train_epochs=6,
-        per_device_train_batch_size=16,
-        per_device_eval_batch_size=32,
+        num_train_epochs=3,
+        per_device_train_batch_size=64,
+        per_device_eval_batch_size=64,
         eval_strategy="epoch",
         save_strategy="epoch",
         save_total_limit=2,
         load_best_model_at_end=True,
         metric_for_best_model="f1",
         greater_is_better=True,
-        logging_steps=50,
+        logging_steps=10,
         fp16=torch.cuda.is_available(),
         report_to="none"
     )
