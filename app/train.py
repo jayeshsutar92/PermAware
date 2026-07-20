@@ -29,9 +29,15 @@ def run_training():
     DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
     logger.info(f"Training device: {DEVICE}")
 
-    dataset_path = BASE_DIR / "final_synthetic_dataset.csv"
+    dataset_path = BASE_DIR / "Dataset" / "final_synthetic_dataset.csv"
     if not dataset_path.exists():
-        raise FileNotFoundError(f"Dataset file not found: {dataset_path}")
+        dataset_path = BASE_DIR / "final_synthetic_dataset.csv"
+        
+    if not dataset_path.exists():
+        raise FileNotFoundError(
+            f"Dataset file not found at expected locations: "
+            f"'{BASE_DIR / 'Dataset' / 'final_synthetic_dataset.csv'}' or '{BASE_DIR / 'final_synthetic_dataset.csv'}'"
+        )
 
     logger.info(f"Loading dataset from {dataset_path}")
     df = pd.read_csv(dataset_path)
