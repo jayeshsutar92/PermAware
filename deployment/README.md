@@ -2,6 +2,9 @@
 
 PermAware is a context-aware system designed to analyze Android application permissions and determine whether they are **Justified** or **Unjustified** based on the application's category. For example, a Social Media application requesting Camera permission is labeled as **"Justified"**, whereas a Gaming app requesting the same permission may be flagged as **"Unjustified"**.
 
+🔗 **Live Link:** [https://permaware.onrender.com](https://permaware.onrender.com)
+
+
 Unlike traditional approaches that rely on fixed static rules or simple malware detection, PermAware leverages a fine-tuned **BERT (Bidirectional Encoder Representations from Transformers)** model to understand the deep semantic relationship between permission requests and app categories.
 
 ---
