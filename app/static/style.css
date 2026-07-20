@@ -17,6 +17,50 @@
     --shadow-glow-purple: 0 0 25px rgba(139, 92, 246, 0.25);
 }
 
+/* Light Theme Variables Override */
+body.light-theme {
+    --bg-primary: #f8fafc;
+    --bg-secondary: #f1f5f9;
+    --card-bg: rgba(255, 255, 255, 0.75);
+    --border-color: rgba(0, 0, 0, 0.08);
+    --border-focus: #6d28d9;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --shadow-glow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+    --shadow-glow-purple: 0 0 25px rgba(139, 92, 246, 0.1);
+}
+
+body.light-theme .canon-tag {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+body.light-theme .data-safety-box {
+    background-color: rgba(0, 0, 0, 0.01);
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-left: 1.5rem;
+}
+
+.theme-toggle-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--accent-purple);
+    background-color: rgba(139, 92, 246, 0.08);
+    transform: rotate(15deg);
+}
+
 * {
     box-sizing: border-box;
     margin: 0;

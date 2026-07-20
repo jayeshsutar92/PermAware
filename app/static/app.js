@@ -47,8 +47,9 @@ function showLoader() {
 // Preserve selected tab state based on results/error context on load
 document.addEventListener('DOMContentLoaded', () => {
     // If there is an active input value in manual form, switch to manual tab
-    const permissionVal = document.getElementById('permission').value;
-    const manualFormHidden = document.getElementById('panel-manual').classList.contains('hidden');
+    const permissionVal = document.getElementById('permission') ? document.getElementById('permission').value : '';
+    const panelManual = document.getElementById('panel-manual');
+    const manualFormHidden = panelManual ? panelManual.classList.contains('hidden') : true;
     
     // Check if form contains a mode state from server side
     const urlParams = new URLSearchParams(window.location.search);
@@ -56,5 +57,29 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (mode === 'manual' || (permissionVal && !manualFormHidden)) {
         switchTab('manual');
+    }
+
+    // Theme toggler logic
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    
+    if (themeToggleBtn && themeIcon) {
+        // Check saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-theme');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+        
+        themeToggleBtn.addEventListener('click', () => {
+            const isLight = document.body.classList.toggle('light-theme');
+            if (isLight) {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'light');
+            } else {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
     }
 });
