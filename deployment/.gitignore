@@ -160,3 +160,6 @@ results_temp/
 results_fast/
 final_synthetic_dataset.csv
 GPT-Permaware.ipynb
+
+# Allow tracking model files inside deployment folder
+!my_model_bce/
