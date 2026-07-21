@@ -158,6 +158,7 @@ results/
 results_subset/
 results_temp/
 results_fast/
+results_tiny/
 final_synthetic_dataset.csv
 GPT-Permaware.ipynb
 
