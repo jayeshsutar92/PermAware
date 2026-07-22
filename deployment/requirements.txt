@@ -1,4 +1,5 @@
 --extra-index-url https://download.pytorch.org/whl/cpu
+
 fastapi>=0.100.0
 uvicorn[standard]>=0.20.0
 pydantic>=2.0.0
@@ -6,6 +7,10 @@ Jinja2>=3.0.0
 beautifulsoup4>=4.11.0
 httpx>=0.23.0
 numpy>=1.24.0,<2.3.0
-torch==2.5.1+cpu
-transformers>=4.30.0
 python-multipart
+transformers>=4.30.0
+
+# Explicit CPU-only PyTorch setup to prevent 2.5GB CUDA downloads and pip index failures
+torch==2.6.0+cpu ; sys_platform == 'win32'
+torch==2.5.1+cpu ; sys_platform == 'darwin'
+https://download.pytorch.org/whl/cpu/torch-2.5.1%2Bcpu-cp311-cp311-linux_x86_64.whl ; sys_platform == 'linux'
